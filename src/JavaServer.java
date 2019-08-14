@@ -6,6 +6,7 @@ import java.io.*;
 
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.net.URL;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -15,8 +16,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JavaServer implements Runnable{
+    // for getting directory of this class:
+    private static final URL location = JavaServer.class.getProtectionDomain().getCodeSource().getLocation();
+    private static final String path = location.getFile().replace("JavaServer.java", "");    // removing name of file at the end
 
-    private static final File WEB_ROOT = new File("public");
+    private static final File WEB_ROOT = new File(path, "public");
     private static final String DEFAULT_FILE = "index.html";
     private static final String FILE_NOT_FOUND = "404.html";
     private static final String METHOD_NOT_SUPPORTED = "501.html";
@@ -167,6 +171,24 @@ public class JavaServer implements Runnable{
         }
     }
 
+    // get data from body in HTTP:
+    private String readBodyData(BufferedReader input) {
+        String payload = "";
+        try{
+            while(input.readLine().length() != 0){
+                // for skipping Header Request!
+            }
+
+            // code to read data from Body:
+            while(input.ready()){
+                payload += (char) input.read();
+            }
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+        return payload;
+    }
+
     private byte[] readFileData(File file, int fileLength) throws IOException {
         byte[] fileData = new byte[fileLength];
         try (FileInputStream fileIn = new FileInputStream(file)) {
@@ -222,14 +244,3 @@ class Exit implements Runnable {
         }
     }
 }
-
-// for getting data from client with POST METHOD:
-
-//  while(in.readLine().length() != 0){
-//      // for skip Header Request!
-//  }
-//  // code to read data from Body:
-//  String payload = "";
-//  while(in.ready()){
-//      payload += (char) in.read();
-//  }
