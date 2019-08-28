@@ -18,8 +18,9 @@ import java.util.concurrent.Executors;
 public class JavaServer implements Runnable{
     // for getting directory of this class:
     private static final URL location = JavaServer.class.getProtectionDomain().getCodeSource().getLocation();
-    private static final String path = location.getFile().replace("JavaServer.java", "");    // removing name of file at the end
-
+	// removing name of file at the end:
+    private static final String path = location.getFile().toLowerCase().replace("javaserver.java", "");
+	
     private static final File WEB_ROOT = new File(path, "public");
     private static final String DEFAULT_FILE = "index.html";
     private static final String FILE_NOT_FOUND = "404.html";
@@ -40,6 +41,7 @@ public class JavaServer implements Runnable{
 
     public static void main(String[] args) {
         try {
+			System.out.println(path);
             ServerSocket serverConnect = new ServerSocket(PORT);
             System.out.println("Server Started.\nListening for connections on port : " + 
                 PORT + " ...");
