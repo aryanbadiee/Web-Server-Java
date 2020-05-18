@@ -1,7 +1,8 @@
 # Web-Server
 a web server with socket programming in java.
 
-Features:
+### Features:
+--------
 * fast and simple
 * supporting from GET & POST Method in HTTP
 * very flexible
